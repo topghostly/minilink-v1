@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import AppError from "./error.js";
+import { cookies } from "./cookies.js";
 
 const JWT_SECRET = process.env.JWT_SECRET_PHRASE || "default-secret-phrase";
 
@@ -28,4 +29,15 @@ export const jwtToken = {
       );
     }
   },
+};
+
+export const jwtSignUser = (res, id, name, mail, role) => {
+  const token = jwtToken.sign({
+    id,
+    name,
+    mail,
+    role,
+  });
+
+  cookies.set(res, "minilink_token", token);
 };
