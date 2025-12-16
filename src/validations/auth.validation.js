@@ -22,6 +22,8 @@ export const signUpSchema = z.object({
 export const signInSchema = z.object({
   mail: z
     .string()
+    .lowercase()
+    .trim()
     .email({ message: "Invalid mail address" })
     .max(255, { message: "Mail should be between 255 characters long" }),
   password: z
