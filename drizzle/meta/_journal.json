@@ -15,6 +15,13 @@
       "when": 1765822738819,
       "tag": "0001_lying_warpath",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1766136014263,
+      "tag": "0002_far_sentinels",
+      "breakpoints": true
     }
   ]
 }

@@ -6,13 +6,13 @@ import { cookies } from "#utils/cookies.js";
 
 export const signUpController = async (req, res, next) => {
   try {
-    const validatedData = signUpSchema.safeParse(req.body);
+    const validated_data = signUpSchema.safeParse(req.body);
 
-    if (!validatedData.success) {
+    if (!validated_data.success) {
       throw new AppError("Invalid request data", 400, "INVALID_INPUT_DATA");
     }
 
-    const { name, mail, password, role } = validatedData.data;
+    const { name, mail, password, role } = validated_data.data;
 
     const user = await createUser({ name, mail, role, password });
 
@@ -41,29 +41,29 @@ export const signUpController = async (req, res, next) => {
 
 export const signIncontroller = async (req, res, next) => {
   try {
-    const validatedData = signInSchema.safeParse(req.body);
+    const validated_data = signInSchema.safeParse(req.body);
 
-    if (!validatedData.success)
+    if (!validated_data.success)
       throw new AppError("Invalid request data", 400, "INVALID_INPUT_DATA");
 
-    const { mail, password } = validatedData.data;
-    const authenticatedUser = await authenticateUser({ mail, password });
+    const { mail, password } = validated_data.data;
+    const authenticated_user = await authenticateUser({ mail, password });
 
     jwtSignUser(
       res,
-      authenticatedUser.id,
-      authenticatedUser.name,
-      authenticatedUser.mail,
-      authenticatedUser.role
+      authenticated_user.id,
+      authenticated_user.name,
+      authenticated_user.mail,
+      authenticated_user.role
     );
 
     res.status(200).json({
       success: true,
       data: {
-        id: authenticatedUser.id,
-        name: authenticatedUser.name,
-        mail: authenticatedUser.mail,
-        role: authenticatedUser.role,
+        id: authenticated_user.id,
+        name: authenticated_user.name,
+        mail: authenticated_user.mail,
+        role: authenticated_user.role,
       },
       error: null,
       meta: {

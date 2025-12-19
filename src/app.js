@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 // Routes
 import authRoutes from "#routes/auth.route.js";
+import linkRoutes from "#routes/links.route.js";
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/links", linkRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {
