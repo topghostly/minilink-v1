@@ -37,6 +37,7 @@ const createDefaultShortLink = () => {
 };
 
 const createShortLink = async ({ is_human_readable }) => {
+  console.log(is_human_readable);
   if (!is_human_readable) {
     let short_link = createDefaultShortLink();
 
@@ -64,7 +65,7 @@ export const createLink = async ({
     .values({
       user_id,
       original_link,
-      short_link: process.env.APP_URL + short_link,
+      short_link,
     })
     .returning({
       id: links.id,

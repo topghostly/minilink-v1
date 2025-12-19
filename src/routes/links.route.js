@@ -1,5 +1,8 @@
 import express from "express";
-import { createLinkController } from "#controllers/links.controller.js";
+import {
+  createLinkController,
+  redirectLinkController,
+} from "#controllers/links.controller.js";
 import { requireAuth } from "#middleware/auth.middleware.js";
 
 const router = express.Router();

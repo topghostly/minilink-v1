@@ -1,6 +1,7 @@
 import express from "express";
 import AppError from "#utils/error.js";
 import cookieParser from "cookie-parser";
+import { redirectLinkController } from "#controllers/links.controller.js";
 
 // Routes
 import authRoutes from "#routes/auth.route.js";
@@ -43,7 +44,7 @@ app.get("/health", (req, res) => {
     },
   });
 });
-
+app.get("/:link", redirectLinkController);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/links", linkRoutes);
 
