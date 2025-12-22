@@ -58,8 +58,6 @@ export const authenticateUser = async ({ mail, password }) => {
       .where(eq(users.mail, mail))
       .limit(1);
 
-    console.log(`The existing user ${JSON.stringify(existingUser)}`);
-
     if (existingUser.length === 0) {
       throw new AppError(
         "Invalid profile details",
