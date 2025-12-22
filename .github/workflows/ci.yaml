@@ -33,7 +33,12 @@ jobs:
 
       - name: Run container
         run: |
-          docker run -d -p 3000:3000 --name minilink-health-test therealayinla/minilink-api
+          docker run -d \
+            -p 3000:3000 \
+            -e NODE_ENV=development \
+            -e DB_URI="postgresql://fake:fake@localhost:5432/fake" \
+            --name minilink-health-test \
+            therealayinla/minilink-api
           sleep 5
 
       - name: Check container logs 1
