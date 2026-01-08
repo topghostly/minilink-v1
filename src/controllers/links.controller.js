@@ -2,6 +2,7 @@ import { createLinkSchema } from "#validations/links.validation.js";
 import { createLink } from "#services/links.service.js";
 import AppError from "#utils/error.js";
 import { links } from "#models/links.model.js";
+import { users } from "#models/users.model.js";
 import { db } from "../config/database.config.js";
 import { eq, and } from "drizzle-orm";
 import { sql } from "drizzle-orm";
@@ -88,6 +89,7 @@ export const getAllUserLinksController = async (req, res, next) => {
     meta: null,
   });
 };
+
 export const getLinkStatsController = async (req, res, next) => {
   const { link } = req.params;
   const user_id = req.user.id;
@@ -110,6 +112,86 @@ export const getLinkStatsController = async (req, res, next) => {
   return res.json({
     success: true,
     data: link_stats[0],
+    error: null,
+    meta: null,
+  });
+};
+
+export const deleteLinkController = async (req, res) => {
+  const { link } = req.params;
+  const user_id = req.user.id;
+
+  const result = await db
+    .delete(links)
+    .where(and(eq(links.short_link, link), eq(links.user_id, user_id)))
+    .returning({ id: links.id });
+
+  if (result.length === 0) {
+    throw new AppError("Link not found", 404, "LINK_NOT_FOUND");
+  }
+
+  return res.json({
+    success: true,
+    data: null,
+    error: null,
+    meta: {
+      message: "Link deleted successfully",
+    },
+  });
+};
+
+export const editOriginalUrlController = async (req, res) => {
+  const { link } = req.params;
+  const user_id = req.user.id;
+
+  const result = await db
+    .update(links)
+    .set({
+      original_link: req.body.original_link,
+    })
+    .where(and(eq(links.short_link, link), eq(links.user_id, user_id)))
+    .returning({ id: links.id });
+
+  if (result.length === 0) {
+    throw new AppError("Link not found", 404, "LINK_NOT_FOUND");
+  }
+
+  return res.json({
+    success: true,
+    data: null,
+    error: null,
+    meta: {
+      message: "Link edited successfully",
+    },
+  });
+};
+
+// Admin Operations
+export const getAllLinksController = async (req, res, next) => {
+  const all_links = await db
+    .select({
+      id: links.id,
+      original_link: links.original_link,
+      short_link: links.short_link,
+      click_counts: links.click_count,
+      created_at: links.created_at,
+      user: {
+        id: users.id,
+        name: users.name,
+        mail: users.mail,
+        role: users.role,
+      },
+    })
+    .from(links)
+    .innerJoin(users, eq(links.user_id, users.id));
+
+  if (all_links.length === 0) {
+    throw new AppError("No links found", 404, "NO_LINKS_FOUND");
+  }
+
+  return res.json({
+    success: true,
+    data: all_links,
     error: null,
     meta: null,
   });

@@ -14,3 +14,11 @@ export const requireAuth = (req, res, next) => {
     throw new AppError("Invalid or expired token", 401, "INVALID_TOKEN");
   }
 };
+
+export const requireAdmin = (req, res, next) => {
+  const user = req.user;
+  if (user.role !== "admin") {
+    throw new AppError("Admin access required", 403, "ADMIN_ACCESS_REQUIRED");
+  }
+  next();
+};

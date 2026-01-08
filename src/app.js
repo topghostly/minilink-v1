@@ -2,6 +2,7 @@ import express from "express";
 import AppError from "#utils/error.js";
 import cookieParser from "cookie-parser";
 import { redirectLinkController } from "#controllers/links.controller.js";
+import cors from "cors";
 
 // Routes
 import authRoutes from "#routes/auth.route.js";
@@ -9,6 +10,7 @@ import linkRoutes from "#routes/links.route.js";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

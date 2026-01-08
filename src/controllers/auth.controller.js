@@ -28,13 +28,6 @@ export const signUpController = async (req, res, next) => {
       },
     });
   } catch (error) {
-    // throw error instanceof AppError
-    //   ? error
-    //   : new AppError(
-    //       error.message || "Something went wrong",
-    //       error.statusCode || 500,
-    //       error.code || "INTERNAL_SERVER_ERROR"
-    //     );
     next(error);
   }
 };
@@ -44,7 +37,7 @@ export const signIncontroller = async (req, res, next) => {
     const validated_data = signInSchema.safeParse(req.body);
 
     if (!validated_data.success)
-      throw new AppError("Invalid request data", 400, "INVALID_INPUT_DATA");
+      throw new AppError(`${validated_data.error}`, 400, "INVALID_INPUT_DATA");
 
     const { mail, password } = validated_data.data;
     const authenticated_user = await authenticateUser({ mail, password });
@@ -84,6 +77,30 @@ export const signOutController = async (req, res, next) => {
       error: null,
       meta: {
         message: "User signed out successfully",
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const stillLoggedInController = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new AppError("Bad or expired token", 404, "BAD_OR_EXPIRED_TOKEN");
+    }
+    res.status(200).json({
+      success: true,
+      data: {
+        id: user.id,
+        name: user.name,
+        mail: user.mail,
+        role: user.role,
+      },
+      error: null,
+      meta: {
+        message: "User still logged in",
       },
     });
   } catch (error) {
