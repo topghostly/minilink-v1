@@ -83,27 +83,3 @@ export const signOutController = async (req, res, next) => {
     next(error);
   }
 };
-
-export const stillLoggedInController = async (req, res, next) => {
-  try {
-    const user = req.user;
-    if (!user) {
-      throw new AppError("Bad or expired token", 404, "BAD_OR_EXPIRED_TOKEN");
-    }
-    res.status(200).json({
-      success: true,
-      data: {
-        id: user.id,
-        name: user.name,
-        mail: user.mail,
-        role: user.role,
-      },
-      error: null,
-      meta: {
-        message: "User still logged in",
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};

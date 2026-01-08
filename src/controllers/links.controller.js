@@ -118,12 +118,12 @@ export const getLinkStatsController = async (req, res, next) => {
 };
 
 export const deleteLinkController = async (req, res) => {
-  const { link } = req.params;
+  const { id } = req.params;
   const user_id = req.user.id;
 
   const result = await db
     .delete(links)
-    .where(and(eq(links.short_link, link), eq(links.user_id, user_id)))
+    .where(and(eq(links.id, id), eq(links.user_id, user_id)))
     .returning({ id: links.id });
 
   if (result.length === 0) {
@@ -141,7 +141,7 @@ export const deleteLinkController = async (req, res) => {
 };
 
 export const editOriginalUrlController = async (req, res) => {
-  const { link } = req.params;
+  const { id } = req.params;
   const user_id = req.user.id;
 
   const result = await db
@@ -149,7 +149,7 @@ export const editOriginalUrlController = async (req, res) => {
     .set({
       original_link: req.body.original_link,
     })
-    .where(and(eq(links.short_link, link), eq(links.user_id, user_id)))
+    .where(and(eq(links.id, id), eq(links.user_id, user_id)))
     .returning({ id: links.id });
 
   if (result.length === 0) {
@@ -192,6 +192,21 @@ export const getAllLinksController = async (req, res, next) => {
   return res.json({
     success: true,
     data: all_links,
+    error: null,
+    meta: null,
+  });
+};
+
+export const getAllUsersController = async (req, res, next) => {
+  const all_users = await db.select().from(users);
+
+  if (all_users.length === 0) {
+    throw new AppError("No users found", 404, "NO_USERS_FOUND");
+  }
+
+  return res.json({
+    success: true,
+    data: all_users,
     error: null,
     meta: null,
   });
