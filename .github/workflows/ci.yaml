@@ -22,14 +22,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # - name: Run health test
-      #   run: npm run test:health
-
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/minilink-api .
-
-      # - name: Push Docker image
-      #   run: docker push therealayinla/minilink-api
 
       - name: Run container
         run: |
@@ -40,7 +34,7 @@ jobs:
             -e DEFAULT_PORT=3000 \
             -e DB_URI="postgresql://fake:fake@localhost:5432/fake" \
             --name minilink-health-test \
-            therealayinla/minilink-api
+            ${{ secrets.DOCKER_HUB_USERNAME }}/minilink-api
           sleep 5
 
       - name: Health check

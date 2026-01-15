@@ -11,16 +11,24 @@ import usersRoutes from "#routes/users.route.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "https://console.chopam.name.ng",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: [
-      "https://www.chopam.name.ng",
-      "https://minilink-client-v1.vercel.app",
-      "https://chopam.name.ng",
-    ],
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
