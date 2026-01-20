@@ -26,7 +26,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 
 app.use(express.json());
@@ -75,8 +75,8 @@ app.use((req, res, next) => {
     new AppError(
       "The requested endpoint does not exist.",
       404,
-      "ROUTE_NOT_FOUND"
-    )
+      "ROUTE_NOT_FOUND",
+    ),
   );
 });
 
