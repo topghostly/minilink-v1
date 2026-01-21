@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minilinks-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: minilinks-api
+  template:
+    metadata:
+      labels:
+        app: minilinks-api
+    spec:
+      containers:
+        - name: api
+          image: minilinks-api:1.0
+          ports:
+            - containerPort: 3000
