@@ -3,12 +3,8 @@ name: CI
 on:
   push:
     branches: [main]
-    # paths-ignore:
-    #   - "k8s/**"
   pull_request:
     branches: [main]
-    # paths-ignore:
-    #   - "k8s/**"
 
 permissions:
   contents: write
