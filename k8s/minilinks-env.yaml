@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minilinks-env
+  namespace: default
+type: Opaque
+stringData:
+  DEFAULT_PORT: "3000"
+  API_VERSION: "1.0.0"
+  NODE_ENV: "development"
+  DB_URI: "postgresql://neondb_owner:npg_Ts90eHZDVSob@ep-dry-pine-ad08pbeu-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+  JWT_SECRET_PHRASE: "i-am-the-real-boss-guy-for-real-life"
+  JWT_EXPIRES_IN: "30m"
+  APP_URL: "https://chopam.name.ng/"
