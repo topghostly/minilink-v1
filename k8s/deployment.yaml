@@ -17,3 +17,6 @@ spec:
           image: therealayinla/minilink-api:5020947071dd294aa945318212e870bb1b63d012
           ports:
             - containerPort: 3000
+          envFrom:
+            - secretRef:
+              name: minilinks-env
