@@ -3,8 +3,12 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "k8s/**"
   pull_request:
     branches: [main]
+    paths-ignore:
+      - "k8s/**"
 
 jobs:
   build:
@@ -62,3 +66,12 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/minilink-api:${{ github.sha }}
+
+      - name: Update Kubernetes Manifest
+        run: |
+          sed -i "s|image: therealayinla/minilink-api:.*|image: therealayinla/minilink-api:${{ github.sha }}|g" k8s/deployment.yaml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add k8s/deployment.yaml
+          git commit -m "Update image to ${{ github.sha }} [skip ci]"
+          git push
