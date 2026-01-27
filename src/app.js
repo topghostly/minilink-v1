@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// Health check for pod health and whotnot
+// Health check for pod health and whotnot and also try what ever
 app.get("/health", (req, res) => {
   res.status(200).json({
     success: true,
