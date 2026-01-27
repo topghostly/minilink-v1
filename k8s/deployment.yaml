@@ -20,3 +20,8 @@ spec:
           envFrom:
             - secretRef:
                 name: minilinks-env
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
