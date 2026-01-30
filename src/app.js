@@ -57,7 +57,7 @@ app.get("/health", (req, res) => {
       status: "healthy",
       version: process.env.API_VERSION,
       environment: process.env.NODE_ENV,
-      pod_name: process.env.POD_NAME,
+      // pod_name: process.env.POD_NAME,
     },
     error: null,
     meta: {
