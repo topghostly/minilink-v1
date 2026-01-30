@@ -3,6 +3,7 @@ import AppError from "#utils/error.js";
 
 export const requireAuth = (req, res, next) => {
   const token = req.cookies?.minilink_token;
+  console.log("The token is", token);
   if (!token) {
     throw new AppError("Authentication required", 401, "UNAUTHORIZED");
   }
