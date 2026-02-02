@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: therealayinla/minilink-api:c6166b28bda8826f74cc0b6d9d62ed31cf24f8d0
+          image: therealayinla/minilink-api:c2af39ee90e2499c3652e8888c3fa3568d0f157a
           ports:
             - containerPort: 3000
           envFrom:
